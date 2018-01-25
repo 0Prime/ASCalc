@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
 
     initButtons();
+    updateGUI();
   }
 
 
@@ -47,12 +48,12 @@ public class MainActivity extends AppCompatActivity {
 
     findViewById(R.id.buttonEquals).setOnClickListener((v) -> {
       tokens = Collections.singletonList(Backend.computeTokens(tokens));
-      updateTexts();
+      updateGUI();
     });
 
     findViewById(R.id.buttonClear).setOnClickListener((v) -> {
       tokens = Collections.singletonList("0");
-      updateTexts();
+      updateGUI();
     });
   }
 
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
   private void addHandler(int id, Fun function) {
     findViewById(id).setOnClickListener((v) -> {
       tokens = function.apply(tokens);
-      updateTexts();
+      updateGUI();
     });
   }
 
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
   private void addOperationHandler(int id, String token) {
     findViewById(id).setOnClickListener((v) -> {
       tokens = Backend.addOperationToken(token, tokens);
-      updateTexts();
+      updateGUI();
     });
   }
 
@@ -81,13 +82,13 @@ public class MainActivity extends AppCompatActivity {
   private void addNumberHandler(int id, String token) {
     findViewById(id).setOnClickListener((v) -> {
       tokens = Backend.addNumberToken(token, tokens);
-      updateTexts();
+      updateGUI();
     });
   }
 
 
-  private void updateTexts() {
-    this.<TextView>findViewById(R.id.textViewSecondary).setText(tokens.toString());
-    this.<TextView>findViewById(R.id.textViewPrimary).setText(tokens.get(tokens.size() - 1));
+  private void updateGUI() {
+    this.<TextView>findViewById(R.id.textViewPrimary).setText(tokens.isEmpty() ? "0" : tokens.get(tokens.size() - 1));
+    this.<TextView>findViewById(R.id.textViewSecondary).setText(tokens.isEmpty() ? "[0]" : tokens.toString());
   }
 }
